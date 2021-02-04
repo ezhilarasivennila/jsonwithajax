@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<body>
+Select Country: <select id="country"></select><br/>
+Select State: <select id="state"></select><br/>
+<button id="b1">Submit</button>
+<script>
+var obj=
+{
+value:number=0, 
+init:function()
+{
+var that=this;
+this.loadcountry();
+document.getElementById("country").addEventListener("change",function()
+{
+
+that.loadstate(this.value);
+});
+
+console.log("hi vv");
+
+},
+
+loadcountry:function()
+{
+console.log("hi");
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.open("GET", "http://www.json-generator.com/api/json/get/cfbIfapCBe?indent=2", true);
+
+var nid1;
+xmlhttp.onload = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var coun = JSON.parse(xmlhttp.responseText);
+coun.forEach(function(val)
+{
+var opt=document.createElement("option");
+opt.innerText=val.country;
+opt.setAttribute("value",val.id);
+this.value=val.id;
+nid1=val.id;
+console.log(nid1);
+document.getElementById("country").appendChild(opt);
+
+});
+    
+  }
+};
+xmlhttp.send();
+//return nid1;
+},
+loadstate:function(id)
+{
+console.log(id);
+document.getElementById("state").innerHTML=" ";
+console.log("hi");
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.open("GET", "http://www.json-generator.com/api/json/get/cfbIfapCBe?indent=2", true);
+
+
+xmlhttp.onload = function() {
+
+  if (this.readyState == 4 && this.status == 200) {
+    var state = JSON.parse(xmlhttp.responseText);
+var i,j,st;
+/*if(typeof(state)=="object"){
+for(j in state)
+{
+if(Object.hasOwnProperty(j)){function(j);}}}
+else{
+var opt=document.createElement("option");
+opt.innerText=val.State;
+opt.setAttribute("value",val.State);
+document.getElementById("state").appendChild(opt);
+}
+}
+}*/
+state.forEach(function(val)
+{
+console.log(val);
+if(val.id==id){
+st=val;
+for(i=0;i<st.State.length;i++){
+var opt=document.createElement("option");
+opt.innerText=st.State[i];
+opt.setAttribute("value",st.id);
+document.getElementById("state").appendChild(opt);
+}
+}
+});
+    
+  }
+};
+xmlhttp.send();
+}
+
+}
+obj.init();
+</script>
+
+
+</body>
+</html>
